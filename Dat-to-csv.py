@@ -26,6 +26,7 @@ class DatBatchCalibrationApp:
 
         self.a = None
         self.b = None
+        self.calibration_model = None
 
         self.build_ui()
         self.build_plot()
@@ -47,6 +48,16 @@ class DatBatchCalibrationApp:
         ttk.Label(ctrl, text="Snap window:").grid(row=0, column=5, sticky="e")
         self.snap_var = tk.StringVar(value="12")
         ttk.Entry(ctrl, textvariable=self.snap_var, width=8).grid(row=0, column=6, padx=5)
+
+        ttk.Label(ctrl, text="Model:").grid(row=0, column=7, sticky="e")
+        self.model_var = tk.StringVar(value="TOF (sqrt(m) vs channel)")
+        ttk.Combobox(
+            ctrl,
+            textvariable=self.model_var,
+            values=("TOF (sqrt(m) vs channel)", "Linear (m vs channel)"),
+            state="readonly",
+            width=24,
+        ).grid(row=0, column=8, padx=5)
 
         ttk.Button(ctrl, text="Mark 16 Peak", command=lambda: self.set_click_mode("16")).grid(row=1, column=0, padx=5, pady=5)
         ttk.Button(ctrl, text="Mark 197 Peak", command=lambda: self.set_click_mode("197")).grid(row=1, column=1, padx=5, pady=5)
@@ -180,12 +191,40 @@ class DatBatchCalibrationApp:
             messagebox.showerror("Calibration Error", "Selected peaks are at the same channel.")
             return
 
-        self.a = (m2 - m1) / (c2 - c1)
-        self.b = m1 - self.a * c1
+        if m1 <= 0 or m2 <= 0:
+            messagebox.showerror(
+                "Calibration Error",
+                "Masses must be positive values for calibration.",
+            )
+            return
 
-        self.cal_var.set(f"Calibration: mass = {self.a:.10f} * channel + {self.b:.10f}")
+        selected_model = self.model_var.get()
+        if selected_model == "TOF (sqrt(m) vs channel)":
+            # Two-point TOF calibration:
+            # sqrt(m) = a*channel + b  ->  m = (a*channel + b)^2
+            self.a = (np.sqrt(m2) - np.sqrt(m1)) / (c2 - c1)
+            self.b = np.sqrt(m1) - self.a * c1
+            self.calibration_model = "tof"
+            self.cal_var.set(
+                f"Calibration (TOF): mass = ({self.a:.10f} * channel + {self.b:.10f})^2"
+            )
+        else:
+            # Legacy linear model:
+            # m = a*channel + b
+            self.a = (m2 - m1) / (c2 - c1)
+            self.b = m1 - self.a * c1
+            self.calibration_model = "linear"
+            self.cal_var.set(
+                f"Calibration (Linear): mass = {self.a:.10f} * channel + {self.b:.10f}"
+            )
+
         self.status_var.set("Calibration computed. You can now export all selected DAT files.")
         self.redraw_plot(use_mass_axis=True)
+
+    def channel_to_mass(self, channels):
+        if self.calibration_model == "tof":
+            return (self.a * channels + self.b) ** 2
+        return self.a * channels + self.b
 
     def export_all(self):
         if not self.dat_files:
@@ -206,7 +245,7 @@ class DatBatchCalibrationApp:
         for path in self.dat_files:
             try:
                 channels, counts = self.read_spectrum_dat(path)
-                masses = self.a * channels + self.b
+                masses = self.channel_to_mass(channels)
 
                 base = os.path.splitext(os.path.basename(path))[0]
                 out_csv = os.path.join(out_dir, f"{base}_calibrated.csv")
@@ -252,7 +291,7 @@ class DatBatchCalibrationApp:
         xlabel = "Channel"
 
         if use_mass_axis and self.a is not None and self.b is not None:
-            x = self.a * self.ref_channels + self.b
+            x = self.channel_to_mass(self.ref_channels)
             xlabel = "Mass"
 
         self.ax.plot(x, self.ref_counts, lw=1)
@@ -261,11 +300,11 @@ class DatBatchCalibrationApp:
         self.ax.set_ylabel("Counts")
 
         if self.selected_channel_16 is not None:
-            x16 = self.selected_channel_16 if not use_mass_axis else self.a * self.selected_channel_16 + self.b
+            x16 = self.selected_channel_16 if not use_mass_axis else self.channel_to_mass(self.selected_channel_16)
             self.ax.axvline(x16, color="green", linestyle="--", label="16 peak")
 
         if self.selected_channel_197 is not None:
-            x197 = self.selected_channel_197 if not use_mass_axis else self.a * self.selected_channel_197 + self.b
+            x197 = self.selected_channel_197 if not use_mass_axis else self.channel_to_mass(self.selected_channel_197)
             self.ax.axvline(x197, color="red", linestyle="--", label="197 peak")
 
         if self.selected_channel_16 is not None or self.selected_channel_197 is not None:
