@@ -35,7 +35,7 @@ class DatBatchCalibrationApp:
         ctrl = ttk.Frame(self.root, padding=10)
         ctrl.pack(side=tk.TOP, fill=tk.X)
 
-        ttk.Button(ctrl, text="Select DAT Files", command=self.select_dat_files).grid(row=0, column=0, padx=5, pady=5)
+        ttk.Button(ctrl, text="Select DAT/AVG Files", command=self.select_dat_files).grid(row=0, column=0, padx=5, pady=5)
 
         ttk.Label(ctrl, text="Peak 1 mass:").grid(row=0, column=1, sticky="e")
         self.mass1_var = tk.StringVar(value="16")
@@ -65,7 +65,7 @@ class DatBatchCalibrationApp:
         ttk.Button(ctrl, text="Export All CSVs", command=self.export_all).grid(row=1, column=3, padx=5, pady=5)
         ttk.Button(ctrl, text="Reset Marks", command=self.reset_marks).grid(row=1, column=4, padx=5, pady=5)
 
-        self.status_var = tk.StringVar(value="Select one or more DAT files.")
+        self.status_var = tk.StringVar(value="Select one or more DAT/AVG files.")
         ttk.Label(self.root, textvariable=self.status_var, padding=(10, 0)).pack(anchor="w")
 
         self.cal_var = tk.StringVar(value="Calibration: not computed")
@@ -89,8 +89,8 @@ class DatBatchCalibrationApp:
 
     def select_dat_files(self):
         paths = filedialog.askopenfilenames(
-            title="Select DAT files",
-            filetypes=[("DAT files", "*.dat"), ("All files", "*.*")]
+            title="Select DAT/AVG files",
+            filetypes=[("DAT/AVG files", "*.dat *.avg"), ("DAT files", "*.dat"), ("AVG files", "*.avg"), ("All files", "*.*")]
         )
         if not paths:
             return
@@ -112,7 +112,7 @@ class DatBatchCalibrationApp:
         self.redraw_plot(use_mass_axis=False)
 
         self.status_var.set(
-            f"Loaded {len(self.dat_files)} DAT file(s). Reference: {os.path.basename(self.reference_file)}"
+            f"Loaded {len(self.dat_files)} file(s). Reference: {os.path.basename(self.reference_file)}"
         )
 
     def read_spectrum_dat(self, path):
