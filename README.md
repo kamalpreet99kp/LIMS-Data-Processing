@@ -17,6 +17,7 @@ This repository also includes `tof_lims_peak_pipeline.py` for the next workflow 
 python tof_lims_peak_pipeline.py your_spectrum.csv --label-mode element
 ```
 
+ codex/locate-dat-to-csv.py-script-05h1bd
 ### Install compatible dependencies (important)
 
 If you see SciPy / NumPy errors like:
@@ -36,6 +37,7 @@ On Windows, if you have multiple Python executables, use the same one as PyCharm
 py -3.9 -m pip install -r requirements-tof-lims.txt
 ```
 
+ main
 ### Key tuning parameters
 
 You can tune detection from command line:
