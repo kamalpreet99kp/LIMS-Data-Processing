@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 
+from tof_lims_desktop.core.isotope_database import IsotopeDatabase, IsotopeEntry
 from core.isotope_database import IsotopeDatabase, IsotopeEntry
 
 
