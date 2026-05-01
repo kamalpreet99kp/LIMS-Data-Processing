@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass
+codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
 from dataclasses import dataclass
+ main
 from pathlib import Path
 
 import numpy as np
@@ -10,16 +13,23 @@ import pandas as pd
 import pyqtgraph as pg
 import pyqtgraph.exporters
 from PySide6.QtCore import Qt
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+from PySide6.QtGui import QAction
+
 from PySide6.QtGui import QAction, QColor
+main
 from PySide6.QtWidgets import (
     QCheckBox,
     QColorDialog,
     QComboBox,
     QDialog,
     QDialogButtonBox,
+codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
+ main
     QDoubleSpinBox,
     QFileDialog,
     QFormLayout,
@@ -28,10 +38,13 @@ from PySide6.QtWidgets import (
     QHeaderView,
     QLabel,
     QLineEdit,
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
     QLabel,
     QLineEdit,
     QListWidget,
     QListWidgetItem,
+ main
     QMainWindow,
     QMessageBox,
     QPushButton,
@@ -40,7 +53,10 @@ from PySide6.QtWidgets import (
     QTableWidget,
     QTableWidgetItem,
     QToolBar,
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
     QSplitter,
+ main
     QVBoxLayout,
     QWidget,
 )
@@ -53,9 +69,12 @@ from tof_lims_desktop.core.mass_matching import (
 )
 from tof_lims_desktop.core.isotope_database import IsotopeDatabase
 from tof_lims_desktop.core.peak_detection import PeakDetectionSettings, detect_peaks
+codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
 from core.isotope_database import IsotopeDatabase
 from core.mass_matching import IonMode, LabelDisplayMode, find_isotope_matches, format_label
 from core.peak_detection import PeakDetectionSettings, detect_peaks
+main
 
 
 @dataclass
@@ -86,11 +105,14 @@ class CalibrationDialog(QDialog):
 
     def values(self):
         return self.a_spin.value(), self.b_spin.value()
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
     mass: float
     counts: float
     enabled: bool = True
     selected_match: int = 0
     custom_label: str = ""
+ main
 
 
 class MainWindow(QMainWindow):
@@ -98,7 +120,10 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("TOF-LIMS Spectrum Analyzer")
         self.resize(1500, 900)
+codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
         self.resize(1300, 800)
+ main
 
         self.db = IsotopeDatabase(isotope_db_path)
         self.source_file: str | None = None
@@ -140,6 +165,8 @@ class MainWindow(QMainWindow):
         self.symbol_scatter = pg.ScatterPlotItem(size=4, brush="#00C8FF", pen=None)
         self.plot_widget.addItem(self.symbol_scatter)
 
+codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
         self.counts = np.array([])
         self.peaks: list[PeakRecord] = []
         self.matches: dict[int, list] = {}
@@ -158,6 +185,7 @@ class MainWindow(QMainWindow):
         self.plot_widget.showGrid(x=True, y=True, alpha=0.2)
         self.plot_widget.addLegend()
         self.curve = self.plot_widget.plot([], [], pen=pg.mkPen("c", width=1.5), name="Spectrum")
+ main
         self.peak_scatter = pg.ScatterPlotItem(size=8, brush="r", pen="w")
         self.peak_scatter.sigClicked.connect(self._on_peak_clicked)
         self.plot_widget.addItem(self.peak_scatter)
@@ -205,6 +233,8 @@ class MainWindow(QMainWindow):
         self.width_spin = QDoubleSpinBox(); self.width_spin.setRange(0, 1e6); self.width_spin.setValue(0.0)
         self.tolerance_spin = QDoubleSpinBox(); self.tolerance_spin.setRange(0.01, 5.0); self.tolerance_spin.setValue(0.2); self.tolerance_spin.setDecimals(3)
         self.tolerance_spin.setToolTip("Mass tolerance (amu/Da). Narrow tolerance requires calibration.")
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
         splitter.addWidget(self.plot_widget)
         splitter.addWidget(self._build_controls())
         splitter.setSizes([900, 400])
@@ -243,6 +273,7 @@ class MainWindow(QMainWindow):
         self.distance_spin = QSpinBox(); self.distance_spin.setRange(1, 10000); self.distance_spin.setValue(5)
         self.tolerance_spin = QDoubleSpinBox(); self.tolerance_spin.setRange(0.001, 5.0); self.tolerance_spin.setDecimals(3); self.tolerance_spin.setValue(0.2)
 
+ main
         self.mode_combo = QComboBox(); self.mode_combo.addItems([IonMode.POSITIVE.value, IonMode.NEGATIVE.value])
         self.label_mode_combo = QComboBox(); self.label_mode_combo.addItems([
             LabelDisplayMode.ELEMENT.value,
@@ -442,6 +473,8 @@ class MainWindow(QMainWindow):
 
     def _clear_labels(self):
         for i in self.label_items: self.plot_widget.removeItem(i)
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
         ])
 
         form.addRow("Min counts", self.threshold_spin)
@@ -548,6 +581,7 @@ class MainWindow(QMainWindow):
     def _clear_labels(self):
         for item in self.label_items:
             self.plot_widget.removeItem(item)
+ main
         self.label_items.clear()
 
     def _draw_labels(self):
@@ -630,6 +664,8 @@ class MainWindow(QMainWindow):
             "title": {"text": self.title_edit.text(), "show": self.title_show_check.isChecked(), "size": self.title_size_spin.value()},
             "style": {"line_width": self.line_width_spin.value(), "line_color": getattr(self, "line_color", "#00C8FF"), "show_symbols": self.symbol_show_check.isChecked(), "symbol_size": self.symbol_size_spin.value(), "label_color": getattr(self, "label_color", "#FFFF00"), "label_font_size": self.label_font_spin.value(), "label_rotation": self.label_rot_spin.value(), "label_bold": self.label_bold_check.isChecked(), "label_italic": self.label_italic_check.isChecked()},
             "peaks": [asdict(p) for p in self.peaks], "manual_notes": self.manual_notes,
+codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
         mode = LabelDisplayMode(self.label_mode_combo.currentText())
         for p in self.peaks:
             if not p.enabled:
@@ -716,6 +752,7 @@ class MainWindow(QMainWindow):
             "ion_mode": self.mode_combo.currentText(),
             "label_mode": self.label_mode_combo.currentText(),
             "peaks": [p.__dict__ for p in self.peaks],
+ main
         }
         Path(path).write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
@@ -734,6 +771,8 @@ class MainWindow(QMainWindow):
         s = payload.get("style", {})
         self.line_width_spin.setValue(s.get("line_width", 2.0)); self.line_color = s.get("line_color", "#00C8FF"); self.symbol_show_check.setChecked(s.get("show_symbols", False)); self.symbol_size_spin.setValue(s.get("symbol_size", 4.0))
         self.label_color = s.get("label_color", "#FFFF00"); self.label_font_spin.setValue(s.get("label_font_size", 11)); self.label_rot_spin.setValue(s.get("label_rotation", 0)); self.label_bold_check.setChecked(s.get("label_bold", False)); self.label_italic_check.setChecked(s.get("label_italic", False))
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
         path, _ = QFileDialog.getOpenFileName(self, "Load Project", "", "JSON (*.json)")
         if not path:
             return
@@ -744,6 +783,7 @@ class MainWindow(QMainWindow):
         self.tolerance_spin.setValue(payload.get("tolerance", 0.2))
         self.mode_combo.setCurrentText(payload.get("ion_mode", IonMode.POSITIVE.value))
         self.label_mode_combo.setCurrentText(payload.get("label_mode", LabelDisplayMode.ISOTOPE.value))
+ main
 
         src = payload.get("source_file")
         if src and Path(src).exists():
@@ -770,6 +810,8 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Export", "PDF fallback: saved PNG suffix .pdf.png")
         else:
             exporter.export(path)
+codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
             self.counts = df.iloc[:, 1].to_numpy(dtype=float)
             self.curve.setData(self.masses, self.counts)
 
@@ -783,3 +825,4 @@ class MainWindow(QMainWindow):
         self._refresh_peak_list()
         self._redraw_peak_markers()
         self._draw_labels()
+main

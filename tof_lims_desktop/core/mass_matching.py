@@ -4,7 +4,10 @@ from dataclasses import dataclass
 from enum import Enum
 
 from tof_lims_desktop.core.isotope_database import IsotopeDatabase, IsotopeEntry
+codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
 from core.isotope_database import IsotopeDatabase, IsotopeEntry
+ main
 
 
 class IonMode(str, Enum):
@@ -41,7 +44,15 @@ def find_isotope_matches(
     return MatchResult(peak_mass=peak_mass, matches=matches)
 
 
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+def format_label(
+    entry: IsotopeEntry,
+    display_mode: LabelDisplayMode,
+    peak_mass: float,
+) -> str:
+
 def format_label(entry: IsotopeEntry, display_mode: LabelDisplayMode, peak_mass: float) -> str:
+ main
     if display_mode == LabelDisplayMode.ELEMENT:
         return entry.element
     if display_mode == LabelDisplayMode.ISOTOPE:
