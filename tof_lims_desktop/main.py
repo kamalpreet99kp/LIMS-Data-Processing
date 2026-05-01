@@ -6,6 +6,7 @@ from pathlib import Path
 from PySide6.QtWidgets import QApplication
 
 from tof_lims_desktop.ui.main_window import MainWindow
+from ui.main_window import MainWindow
 
 
 def main() -> int:
