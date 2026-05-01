@@ -40,7 +40,11 @@ def find_isotope_matches(
     return MatchResult(peak_mass=peak_mass, matches=matches)
 
 
-def format_label(entry: IsotopeEntry, display_mode: LabelDisplayMode, peak_mass: float) -> str:
+def format_label(
+    entry: IsotopeEntry,
+    display_mode: LabelDisplayMode,
+    peak_mass: float,
+) -> str:
     if display_mode == LabelDisplayMode.ELEMENT:
         return entry.element
     if display_mode == LabelDisplayMode.ISOTOPE:
