@@ -6,6 +6,10 @@ from pathlib import Path
 from PySide6.QtWidgets import QApplication
 
 from tof_lims_desktop.ui.main_window import MainWindow
+ codex/create-python-app-for-tof-lims-spectrum-analysis-xqqtac
+
+from ui.main_window import MainWindow
+ main
 
 
 def main() -> int:
