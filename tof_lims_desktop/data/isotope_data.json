@@ -30,4 +30,12 @@
 {"atomic_number":78,"element":"Pt","mass_number":195,"exact_mass":194.964792,"abundance":33.78,"isotope":"Pt-195"},
 {"atomic_number":79,"element":"Au","mass_number":197,"exact_mass":196.966569,"abundance":100.0,"isotope":"Au-197"},
 {"atomic_number":82,"element":"Pb","mass_number":208,"exact_mass":207.976652,"abundance":52.4,"isotope":"Pb-208"}
+  {"atomic_number": 6, "element": "C", "mass_number": 12, "exact_mass": 12.000000, "abundance": 98.93, "isotope": "C-12"},
+  {"atomic_number": 11, "element": "Na", "mass_number": 23, "exact_mass": 22.989769, "abundance": 100.0, "isotope": "Na-23"},
+  {"atomic_number": 12, "element": "Mg", "mass_number": 24, "exact_mass": 23.985042, "abundance": 78.99, "isotope": "Mg-24"},
+  {"atomic_number": 26, "element": "Fe", "mass_number": 56, "exact_mass": 55.934936, "abundance": 91.75, "isotope": "Fe-56"},
+  {"atomic_number": 29, "element": "Cu", "mass_number": 63, "exact_mass": 62.929598, "abundance": 69.15, "isotope": "Cu-63"},
+  {"atomic_number": 29, "element": "Cu", "mass_number": 65, "exact_mass": 64.927790, "abundance": 30.85, "isotope": "Cu-65"},
+  {"atomic_number": 79, "element": "Au", "mass_number": 197, "exact_mass": 196.966569, "abundance": 100.0, "isotope": "Au-197"},
+  {"atomic_number": 16, "element": "S", "mass_number": 32, "exact_mass": 31.972071, "abundance": 94.99, "isotope": "S-32"}
 ]
