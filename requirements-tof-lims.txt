@@ -5,3 +5,6 @@ numpy
 scipy
 matplotlib
 openpyxl
+numpy==1.26.4
+scipy==1.10.1
+matplotlib==3.7.5
