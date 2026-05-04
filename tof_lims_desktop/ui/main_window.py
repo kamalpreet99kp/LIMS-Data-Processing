@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
@@ -7,7 +8,10 @@ import numpy as np
 import pyqtgraph as pg
 import pyqtgraph.exporters
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import *
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import (
+    ...
+)
 
 from tof_lims_desktop.core.calibration import apply_calibration, fit_linear_calibration
 from tof_lims_desktop.core.data_loader import load_spectrum
