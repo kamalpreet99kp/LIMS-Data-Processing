@@ -34,3 +34,29 @@ Or edit defaults at the top of the script:
 - `PEAK_MIN_DISTANCE`
 - `MASS_MATCH_TOLERANCE`
 - `REFERENCE_MASSES` (element/isotope lookup table)
+
+## TOF-LIMS Desktop Prototype (PySide6 + pyqtgraph)
+
+A new prototype app is available in `tof_lims_desktop/`.
+
+### Features
+- Load CSV/XLSX with first two columns as mass and counts.
+- Fast interactive spectrum plotting with pyqtgraph.
+- Peak detection with `scipy.signal.find_peaks` (threshold, prominence, distance controls).
+- Isotope suggestions from a local JSON isotope database with mass tolerance.
+- Per-peak label controls (enable/disable, select match, custom text override).
+- Project save/load to JSON.
+- Plot export to PNG/JPG (PDF placeholder currently writes PNG fallback).
+
+### Run
+
+```bash
+cd tof_lims_desktop
+python main.py
+```
+
+Install dependencies as needed:
+
+```bash
+pip install pandas numpy scipy pyqtgraph PySide6 openpyxl
+```
