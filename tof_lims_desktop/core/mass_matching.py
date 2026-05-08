@@ -24,7 +24,7 @@ class LabelMode(str, Enum):
 
 def find_matches(peak_mass: float, db: IsotopeDatabase, tolerance: float, match_mode: MatchMode) -> list[IsotopeEntry]:
     if match_mode == MatchMode.NOMINAL:
-        return [e for e in db.entries if abs(float(e.mass_number) - float(round(peak_mass))) <= 0 and abs(e.exact_mass - peak_mass) <= max(tolerance, 0.6)]
+        return [e for e in db.entries if abs(round(e.exact_mass) - round(peak_mass)) <= 0]
     return [e for e in db.entries if abs(e.exact_mass - peak_mass) <= tolerance]
 
 

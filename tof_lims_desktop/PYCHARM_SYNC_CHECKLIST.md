@@ -22,7 +22,7 @@ If not, your local code is stale.
 ## 3) Verify no conflict artifacts
 
 ```bash
-rg "conflict-markers"  # run your preferred conflict-marker search
+rg "codex/|<<<<<<<|=======|>>>>>>>" tof_lims_desktop
 ```
 
 Expected: no output.
@@ -30,7 +30,7 @@ Expected: no output.
 ## 4) Verify package-safe imports
 
 ```bash
-Use your local grep command to ensure no bare imports remain.
+rg "from core\\.|from ui\\.|import core|import ui" tof_lims_desktop
 ```
 
 Expected: no output.
